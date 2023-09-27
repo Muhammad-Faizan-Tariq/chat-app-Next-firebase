@@ -1,11 +1,13 @@
 import { useAuth } from '@/context/authContext'
-import React from 'react'
 import Avatar from './Avatars';
 import Image from 'next/image';
+import { useChatContext } from '@/context/chatContext';
+import ImageViewer from "react-simple-image-viewer";
 
 const Message = ({ message }) => {
 
   const { currentUser } = useAuth()
+  const { users, data, imageViewer,  setImageViewer} = useChatContext();
 
   const self = message.sender === currentUser.uid;
 
@@ -27,7 +29,20 @@ const Message = ({ message }) => {
             width={250}
             height={250}
             alt={message?.text || ""}
-            className="rounded-3xl max-w-[250px]"/>
+            className="rounded-3xl max-w-[250px]"
+            onClick={()=>{
+              setImageViewer({ msgId: message.id, url: message.img })
+            }}/>
+
+            {imageViewer && imageViewer.msgId === message.id && (
+              <ImageViewer
+                src={[imageViewer.url]}
+                currentIndex={0}
+                disableScroll={false}
+                closeOnClickOutside={true}
+                onClose={()=>setImageViewer(null)}
+              />
+            )}
           </>
         )}
         </div>
