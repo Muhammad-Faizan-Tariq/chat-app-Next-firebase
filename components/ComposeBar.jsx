@@ -86,9 +86,9 @@ const ComposeBar = () => {
             [data.chatId + ".lastMessage"]: msg,
             [data.chatId + ".date"]: serverTimestamp(),
         });
-        setInputText("")
-        setAttachment(null)
-        setAttachmentPreview
+        setInputText("");
+        setAttachment(null);
+        setAttachmentPreview(null);
     }
 
   return (

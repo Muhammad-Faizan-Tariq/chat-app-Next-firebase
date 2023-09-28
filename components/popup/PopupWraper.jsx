@@ -8,16 +8,17 @@ const PopupWraper = ( props ) => {
         <div className='w-full h-full absolute glass-effect'
         onClick={props.onHide}></div>
 
-        <div className='flex flex-col w-[500px] max-h-[80%] min-h-[600px] bg-c2 relative z-10 rounded-3xl'>
+        <div className={`flex flex-col w-[500px] max-h-[80%] bg-c2 relative z-10 rounded-3xl
+        ${props.shortHeight ? "" : "min-h-[600px]"}`}>
             
-            <div className='shrink-0 p-6 flex items-center justify-between'> 
+            {!props.noHeader && (<div className='shrink-0 p-6 flex items-center justify-between'> 
                 <div className='text-lg font-semibold'>
                     {props.title || ""}
                 </div>
                 <Icons size="small"
                 icon={<IoClose size={20}/>}
                 onClick={ props.onHide }/>
-            </div>
+            </div>)}
 
             <div className='grow flex flex-col p-6 pt-0'>
                     {props.children}

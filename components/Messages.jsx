@@ -3,11 +3,14 @@ import { onSnapshot, doc, } from 'firebase/firestore';
 import { useChatContext } from '@/context/chatContext';
 import { db } from '@/firebase/firebase';
 import Message from './Message';
+import { DELETED_FOR_ME } from '@/utils/constants';
+import { useAuth } from '@/context/authContext';
 
 const Messages = () => {
 
     const [messages, setMessages] = useState([]);
     const { data } = useChatContext();
+    const { currentUser } = useAuth();
     const ref = useRef();
 
     useEffect(()=>{
@@ -22,7 +25,16 @@ const Messages = () => {
 
   return (
     <div ref={ref} className='grow p-5 overflow-auto scrollbar flex flex-col'>
-        {messages.map((m)=>{
+        {messages
+        ?.filter((m)=>{
+          return (
+            m?.deletedInfo?.[currentUser.uid] !==
+            DELETED_FOR_ME &&
+            !m?.deletedInfo?.deteledForEveryone &&
+            !m?.deletedInfo?.[currentUser.uid]
+          )
+        })
+        ?.map((m)=>{
           return <Message message={m} key={m.id}/>
         })}
     </div>

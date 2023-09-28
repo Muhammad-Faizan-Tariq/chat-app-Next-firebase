@@ -16,9 +16,9 @@ const ChatFooter = () => {
             setEditMsg, setInputText,
             setAttachment, setAttachmentPreview} = useChatContext()
     
-    const onEmojiClick = (emojiData, event) => {
+    const onEmojiClick = (emojiData) => {
         let text = inputText;
-        setInputText((text += emojiData.emojiData));
+        setInputText((text += emojiData.emoji));
     };
 
     const onFileChnage = (e) => {
@@ -94,7 +94,8 @@ const ChatFooter = () => {
         {editMsg && (
         <div className='absolute -top-12 left-1/2 -translate-x-12 bg-c4
             flex items-center gap-2 py-2 px-4 pr-2 rounded-full
-            text-sm font-semibold cursor-pointer shadow-lg'>
+            text-sm font-semibold cursor-pointer shadow-lg'
+            onClick={()=> setEditMsg(null)}>
             <span>Cancel Edit</span>
             <IoClose size={20} className='text-white'/>
         </div>
