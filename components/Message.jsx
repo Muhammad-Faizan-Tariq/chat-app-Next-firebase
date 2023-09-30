@@ -18,7 +18,7 @@ const Message = ({ message }) => {
   const [showMenu, setShowMenu] = useState(false);
   const [showDeletePopup, setShowDeletePopup] = useState(false);
   const { currentUser } = useAuth();
-  const { users, data, imageViewer,  setImageViewer} = useChatContext();
+  const { users, data, imageViewer,  setImageViewer, setEditMsg} = useChatContext();
 
   const self = message.sender === currentUser.uid;
 
@@ -118,6 +118,7 @@ const Message = ({ message }) => {
               showMenu={showMenu}
               setShowMenu={setShowMenu}
               deletePopupHandler={deletePopupHandler}
+              setEditMsg={()=>setEditMsg(message)}
             />)}
           </div>
 

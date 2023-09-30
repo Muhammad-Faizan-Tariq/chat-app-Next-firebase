@@ -9,7 +9,7 @@ import { useAuth } from '@/context/authContext';
 const Messages = () => {
 
     const [messages, setMessages] = useState([]);
-    const { data } = useChatContext();
+    const { data, setIsTyping } = useChatContext();
     const { currentUser } = useAuth();
     const ref = useRef();
 
@@ -18,10 +18,20 @@ const Messages = () => {
         (doc)=>{
             if(doc.exists()){
                 setMessages(doc.data().messages);
+                setIsTyping(doc.data()?.typing?.[data.user.uid] || false)
             }
+            setTimeout(()=>{
+              scrollToBottom()
+            }, 0)
         });
         return ()=> unsub();
-    }, [data.chatId])
+    }, [data.chatId]);
+
+    const scrollToBottom = () => {
+      const chatContainer = ref.current;
+      chatContainer.scrollTop = chatContainer.scrollHeight - chatContainer.clientHeight;
+    };
+
 
   return (
     <div ref={ref} className='grow p-5 overflow-auto scrollbar flex flex-col'>
@@ -31,7 +41,7 @@ const Messages = () => {
             m?.deletedInfo?.[currentUser.uid] !==
             DELETED_FOR_ME &&
             !m?.deletedInfo?.deteledForEveryone &&
-            !m?.deletedInfo?.[currentUser.uid]
+            !m?.deleteChatInfo?.[currentUser.uid]
           )
         })
         ?.map((m)=>{

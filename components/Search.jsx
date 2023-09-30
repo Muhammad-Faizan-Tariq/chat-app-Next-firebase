@@ -80,7 +80,9 @@ const Search = () => {
                     [combinedId + ".date"]: serverTimestamp(),
                 });
             } else {
-                // chat document exists
+                await updateDoc(doc, (db, "userChats", currentUser.uid), {
+                    [combinedId + ".chatDeleted"]: deleteField()
+                })
             }
 
             setUser(null)

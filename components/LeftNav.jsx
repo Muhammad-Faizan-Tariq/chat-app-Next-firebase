@@ -19,7 +19,7 @@ import UsersPopup from './popup/UsersPopup';
 
 const LeftNav = () => {
 
-    const [editProfile, setEditProfile] = useState(true)
+    const [editProfile, setEditProfile] = useState(false)
     const [usersPopup, setUsersPopup] = useState(false)
     const [nameEdited, setNameEdited] = useState(false)
     const { currentUser, signOut, setCurrentUser } = useAuth();
@@ -125,9 +125,9 @@ const LeftNav = () => {
         }
     }
 
-    const editProfilContainer = () => {
+    const editProfileContainer = () => {
         return (
-            <div className='relative flex flex-col items-center'>
+            <div className="relative flex flex-col items-center">
                 <ToastMessage />
                 <Icons
                     size="small"
@@ -135,13 +135,9 @@ const LeftNav = () => {
                     icon={<IoClose size={20} />}
                     onClick={() => setEditProfile(false)}
                 />
-
-                    <div className="relative group cursor-pointer">
+                <div className="relative group cursor-pointer">
                     <Avatars size="xx-large" user={currentUser} />
-
-                    <div
-                    className="w-full h-full rounded-full bg-black/[0.5] absolute top-0 left-0  justify-center items-center hidden group-hover:flex"
-                    style={{ width: '6rem', height: '6rem' }}>
+                    <div className="w-full h-full rounded-full bg-black/[0.5] absolute top-0 left-0 justify-center items-center hidden group-hover:flex">
                         <label htmlFor="fileUpload">
                             {currentUser.photoURL ? (
                                 <MdPhotoCamera size={34} />
@@ -160,94 +156,110 @@ const LeftNav = () => {
                     </div>
 
                     {currentUser.photoURL && (
-                        <div onClick={()=>{handleUpdateProfile("photo-remove")}}
-                            className='w-10 h-10 rounded-full bg-red-500 flex justify-center items-center absolute right-0 bottom-0'>
+                        <div
+                            className="w-6 h-6 rounded-full bg-red-500 flex justify-center items-center absolute right-0 bottom-0"
+                            onClick={() => handleUpdateProfile("photo-remove")}
+                        >
                             <MdDeleteForever size={14} />
                         </div>
                     )}
+                </div>
 
-                    <div className='mt-5 flex flex-col items-center'>
-                        <div className='flex items-center gap-2'>
-                            {!nameEdited && <BiEdit
-                                className='text-c3' />}
-                            {nameEdited && (
-                                <BsFillCheckCircleFill
-                                    className='text-c4 cursor-pointer'
-                                    onClick={() => {
-                                        handleUpdateProfile("name",
-                                            document.getElementById("displayNameEdit").innerText)
-                                    }}
-                                />)}
-                            <div contentEditable
-                                className='bg-transparent
-                            outline-none border-none text-center'
-                                id='displayNameEdit'
-                                onKeyUp={onkeyup}
-                                onKeyDown={onkeydown}
-                            >
-                                {currentUser.displayName}</div>
-                        </div>
-                        <span className='text-c3 text-sm'>{currentUser.email}</span>
-                    </div>
-
-                    <div className='grid grid-cols-5 gap-4 mt-5'>
-                        {profileColors.map((color, index) => (
-                            <span key={index}
-                                className='w-10 h-10 rounded-full
-                                    flex items-center justify-center cursor-pointer
-                                    transition-transform hover:scale-125'
-                                style={{ background: color }}
+                <div className="mt-5 flex flex-col items-center">
+                    <div className="flex items-center gap-2">
+                        {!nameEdited && <BiEdit className="text-c3" />}
+                        {nameEdited && (
+                            <BsFillCheckCircleFill
+                                className="text-c4 cursor-pointer"
                                 onClick={() => {
-                                    handleUpdateProfile("color", color)
+                                    handleUpdateProfile(
+                                        "name",
+                                        document.getElementById(
+                                            "displayNameEdit"
+                                        ).innerText
+                                    );
                                 }}
-                            >
-                                {color === currentUser.color && (
-                                    <BiCheck size={24} />
-                                )}
-                            </span>
-                        ))}
+                            />
+                        )}
+                        <div
+                            contentEditable
+                            className="bg-transparent outline-none border-none text-center"
+                            id="displayNameEdit"
+                            onKeyUp={onkeyup}
+                            onKeyDown={onkeydown}
+                        >
+                            {currentUser.displayName}
+                        </div>
                     </div>
+                    <span className="text-c3 text-sm">{currentUser.email}</span>
+                </div>
+
+                <div className="grid grid-cols-5 gap-4 mt-5">
+                    {profileColors.map((color, index) => (
+                        <span
+                            key={index}
+                            className="w-10 h-10 rounded-full flex items-center justify-center cursor-pointer transition-transform hover:scale-125"
+                            style={{ backgroundColor: color }}
+                            onClick={() => {
+                                handleUpdateProfile("color", color);
+                            }}
+                        >
+                            {color === currentUser.color && (
+                                <BiCheck size={24} />
+                            )}
+                        </span>
+                    ))}
                 </div>
             </div>
-        )
-    }
-
+        );
+    };
 
     return (
-        <div className={` ${editProfile ? "w-[350px]" : "w-[80px] items-center"}
-        flex flex-col justify-between py-5 shrink-0 transition-all`}>
-
-            {editProfile ? (editProfilContainer()) : (
-                <div className='relative group cursor-pointer' onClick={() => setEditProfile(true)}>
-                    <Avatars size="x-large" user={currentUser} />
-                    <div className='w-full h-full rounded-full bg-black/[0.5] absolute top-0 left-0 justify-center items-center hidden hover:flex'>
+        <div
+            className={`${
+                editProfile ? "w-[350px]" : "w-[80px] items-center"
+            } flex flex-col justify-between py-5 shrink-0 transition-all`}
+        >
+            {editProfile ? (
+                editProfileContainer()
+            ) : (
+                <div
+                    className="relative group cursor-pointer"
+                    onClick={() => setEditProfile(true)}
+                >
+                    <Avatars size="large" user={currentUser} />
+                    <div className="w-full h-full rounded-full bg-black/[0.5] absolute top-0 left-0 justify-center items-center hidden group-hover:flex">
                         <BiEdit size={14} />
                     </div>
                 </div>
-            )
-            }
+            )}
 
-            <div className={`flex gap-5 ${editProfile ? "ml-5" : "flex-col items-center"}`}>
+            <div
+                className={`flex gap-5 ${
+                    editProfile ? "ml-5" : "flex-col items-center"
+                }`}
+            >
                 <Icons
-                    icon={<FiPlus size={24} />}
                     size="x-large"
                     className="bg-green-500 hover:bg-gray-600"
+                    icon={<FiPlus size={24} />}
                     onClick={() => setUsersPopup(!usersPopup)}
                 />
                 <Icons
-                    icon={<FiLogOut size={24} />}
                     size="x-large"
-                    className=" hover:bg-gray-600"
+                    className="hover:bg-c2"
+                    icon={<FiLogOut size={24} />}
                     onClick={signOut}
                 />
             </div>
             {usersPopup && (
-            <UsersPopup
-            onHide = {()=> setUsersPopup(false)}
-            title="Find Users"
-            />)}
+                <UsersPopup
+                    onHide={() => setUsersPopup(false)}
+                    title="Find Users"
+                />
+            )}
         </div>
-    )
+    );
 }
 
 export default LeftNav
