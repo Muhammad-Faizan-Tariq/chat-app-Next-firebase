@@ -1,6 +1,8 @@
 # 🔗 Next.js Chat Application
 Stay connected worldwide with our Next.js and Firebase chat app. Enjoy real-time messaging, a sleek interface, secure storage, and lightning-fast performance for work or play. Effortless and enjoyable conversations await.
 
+https://github.com/Muhammad-Faizan-Tariq/chat-app-Next-firebase/assets/75636554/fe6a9775-d5ff-4121-abf7-6bec99c18a7b
+
 ## Technology Stack 👨‍💻
 This is a chat application built with Next.js, using the following technologies:
 
